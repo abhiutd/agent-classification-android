@@ -21,4 +21,8 @@
     <string name="toggle_turn_on">NN:On</string>
     <string name="toggle_turn_off">NN:Off</string>
     <string name="toggle">Use NNAPI</string>
+    <string name="intro_headline">MLModelScope Agent</string>
+    <string name="choose_framework">Framework</string>
+    <string name="choose_model">Model</string>
+    <string name="choose_hardware">Hardware</string>
 </resources>

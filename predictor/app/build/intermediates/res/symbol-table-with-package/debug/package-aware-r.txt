@@ -429,8 +429,12 @@ color bright_foreground_inverse_material_dark
 color bright_foreground_inverse_material_light
 color bright_foreground_material_dark
 color bright_foreground_material_light
+color buttonBackground
 color button_material_dark
 color button_material_light
+color colorAccent
+color colorPrimary
+color colorPrimaryDark
 color control_background
 color design_bottom_navigation_shadow_color
 color design_error
@@ -478,6 +482,7 @@ color primary_text_disabled_material_dark
 color primary_text_disabled_material_light
 color ripple_material_dark
 color ripple_material_light
+color screenBackground
 color secondary_text_default_material_dark
 color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
@@ -741,6 +746,8 @@ drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable tile
+id Hardware_button
+id Model_button
 id action0
 id action_bar
 id action_bar_activity_content
@@ -807,6 +814,7 @@ id fill
 id fill_horizontal
 id fill_vertical
 id fixed
+id framework_button
 id gone
 id home
 id homeAsUp
@@ -889,6 +897,7 @@ id text
 id text2
 id textSpacerNoButtons
 id textSpacerNoTitle
+id textView
 id text_input_password_toggle
 id textinput_counter
 id textinput_error
@@ -946,6 +955,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout activity_camera
+layout activity_main
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
 layout design_layout_snackbar
@@ -1016,7 +1026,11 @@ string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
 string camera_error
 string character_counter_pattern
+string choose_framework
+string choose_hardware
+string choose_model
 string description_info
+string intro_headline
 string intro_message
 string password_toggle_content_description
 string path_password_eye
