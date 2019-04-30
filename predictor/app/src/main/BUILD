@@ -3,14 +3,14 @@ package(default_visibility = ["//visibility:private"])
 licenses(["notice"])  # Apache 2.0
 
 android_binary(
-    name = "TfLiteCameraDemo",
+    name = "MLModelScopePredictor",
     srcs = glob(["java/**/*.java"]),
     assets = [
         "@tflite_mobilenet//:labels.txt",
         "@tflite_mobilenet//:mobilenet_quant_v1_224.tflite",
     ],
     assets_dir = "",
-    custom_package = "com.example.android.tflitecamerademo",
+    custom_package = "com.example.android.mlmodelscopepredictor",
     manifest = "AndroidManifest.xml",
     nocompress_extensions = [
         ".tflite",

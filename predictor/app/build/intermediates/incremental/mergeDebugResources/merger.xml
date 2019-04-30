@@ -1921,12 +1921,11 @@
         <item name="android:textAppearance">?android:textAppearanceLarge</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
         <item name="android:shadowDy">-6.5</item>
-    </style></file><file path="/Users/abhiutd/workspace/scratch/agent-classification-android/predictor/app/src/main/res/values/colors.xml" qualifiers=""><color name="control_background">#cc4285f4</color></file><file path="/Users/abhiutd/workspace/scratch/agent-classification-android/predictor/app/src/main/res/values/base-strings.xml" qualifiers=""><string name="app_name">TfLiteCameraDemo</string><string name="intro_message">
+    </style></file><file path="/Users/abhiutd/workspace/scratch/agent-classification-android/predictor/app/src/main/res/values/colors.xml" qualifiers=""><color name="control_background">#cc4285f4</color></file><file path="/Users/abhiutd/workspace/scratch/agent-classification-android/predictor/app/src/main/res/values/base-strings.xml" qualifiers=""><string name="app_name">MLModelScope Predictor</string><string name="intro_message">
         <![CDATA[
         
             
-            This sample demonstrates the basic use of TfLite API. Check the source code to see how
-            you can use TfLite for efficient, on-device inference with trained TensorFlow models.
+            This is a predictor application written to enable deployment of MLModelScope Predictor APIs on android devices.
             
         
         ]]>

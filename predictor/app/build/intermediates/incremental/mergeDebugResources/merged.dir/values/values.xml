@@ -716,7 +716,7 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <string name="app_name">TfLiteCameraDemo</string>
+    <string name="app_name">MLModelScope Predictor</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
@@ -726,8 +726,7 @@
         <![CDATA[
         
             
-            This sample demonstrates the basic use of TfLite API. Check the source code to see how
-            you can use TfLite for efficient, on-device inference with trained TensorFlow models.
+            This is a predictor application written to enable deployment of MLModelScope Predictor APIs on android devices.
             
         
         ]]>

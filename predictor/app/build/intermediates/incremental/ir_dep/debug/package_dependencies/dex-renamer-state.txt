@@ -1,4 +1,4 @@
-#Sat Mar 02 13:14:42 CST 2019
-base.0=/Users/abhiutd/workspace/scratch/tflite_image_classification/tensorflow-for-poets-2/android/tflite/app/build/intermediates/transforms/dexMerger/debug/10
+#Tue Apr 30 12:21:54 CDT 2019
+base.0=/Users/abhiutd/workspace/scratch/agent-classification-android/predictor/app/build/intermediates/transforms/dexMerger/debug/10
 path.0=classes.dex
 renamed.0=classes.dex
