@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/abhiutd/workspace/scratch/tflite_image_classification/tensorflow-for-poets-2/android/tflite/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ko/values-ko.xml",
+            "outputFile": "/Users/abhiutd/workspace/scratch/agent-classification-android/predictor/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ko/values-ko.xml",
             "map": [
                 {
                     "source": "/Users/abhiutd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.2.0.aar/a7e22d1dac2bfdb4ab2a06de062894e5/res/values-ko/values-ko.xml",
