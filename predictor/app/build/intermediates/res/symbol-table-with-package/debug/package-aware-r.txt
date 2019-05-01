@@ -16,6 +16,9 @@ anim design_fab_out
 anim design_snackbar_in
 anim design_snackbar_out
 animator design_appbar_state_list_animator
+array framework_array
+array hardware_array
+array model_array
 attr actionBarDivider
 attr actionBarItemBackground
 attr actionBarPopupTheme
@@ -746,8 +749,6 @@ drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable tile
-id Hardware_button
-id Model_button
 id action0
 id action_bar
 id action_bar_activity_content
@@ -814,8 +815,9 @@ id fill
 id fill_horizontal
 id fill_vertical
 id fixed
-id framework_button
+id framework_spinner
 id gone
+id hardware_spinner
 id home
 id homeAsUp
 id icon
@@ -835,6 +837,7 @@ id masked
 id media_actions
 id middle
 id mini
+id model_spinner
 id multiply
 id navigation_header_container
 id never
@@ -849,6 +852,7 @@ id parent
 id parentPanel
 id percent
 id pin
+id predict_button
 id progress_circular
 id progress_horizontal
 id radio
@@ -1029,6 +1033,7 @@ string character_counter_pattern
 string choose_framework
 string choose_hardware
 string choose_model
+string choose_predict
 string description_info
 string intro_headline
 string intro_message

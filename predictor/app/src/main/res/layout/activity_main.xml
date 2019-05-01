@@ -24,6 +24,65 @@
         app:layout_constraintVertical_bias="0.3"
         />
 
+    <Spinner
+        android:id="@+id/framework_spinner"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/control_background"
+        android:entries="@array/framework_array"
+        android:text="@string/choose_framework"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:listitem="@android:layout/simple_spinner_item" />
+
+    <Spinner
+        android:id="@+id/model_spinner"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/control_background"
+        android:entries="@array/model_array"
+        android:text="@string/choose_model"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/framework_spinner"
+        tools:listitem="@android:layout/simple_spinner_item" />
+
+    <Spinner
+        android:id="@+id/hardware_spinner"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/control_background"
+        android:entries="@array/hardware_array"
+        android:text="@string/choose_hardware"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/model_spinner"
+        tools:listitem="@android:layout/simple_spinner_item" />
+
+    <Button
+        android:id="@+id/predict_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/choose_predict"
+        android:onClick="goToPredict"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hardware_spinner" />
+
+    <!--
     <Button
         android:id="@+id/framework_button"
         android:layout_width="wrap_content"
@@ -39,7 +98,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/Model_button"
+        android:id="@+id/model_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -50,12 +109,12 @@
         android:onClick="MLModelMe"
         android:text="@string/choose_model"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/Hardware_button"
+        app:layout_constraintEnd_toStartOf="@+id/hardware_button"
         app:layout_constraintStart_toEndOf="@+id/framework_button"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/Hardware_button"
+        android:id="@+id/hardware_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -67,4 +126,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+    -->
 </android.support.constraint.ConstraintLayout>

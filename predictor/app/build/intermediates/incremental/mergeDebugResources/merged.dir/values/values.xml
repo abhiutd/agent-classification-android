@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="http://schemas.android.com/tools">
+    <string-array name="framework_array">
+        <item>TFLite</item>
+        <item>Caffe2</item>
+        <item>TVM</item>>
+    </string-array>
+    <string-array name="hardware_array">
+        <item>CPU</item>
+        <item>GPU</item>
+        <item>DSP</item>>
+    </string-array>
+    <string-array name="model_array">
+        <item>Mobilenet_1</item>
+        <item>Mobilenet_2</item>
+        <item>Mobilenet_3</item>>
+    </string-array>
     <attr format="boolean" name="barrierAllowsGoneWidgets"/>
     <attr format="enum" name="barrierDirection">
         <enum name="left" value="0"/>
@@ -729,6 +744,7 @@
     <string name="choose_framework">Framework</string>
     <string name="choose_hardware">Hardware</string>
     <string name="choose_model">Model</string>
+    <string name="choose_predict">Predict</string>
     <string name="description_info">Info</string>
     <string name="intro_headline">MLModelScope Agent</string>
     <string name="intro_message">

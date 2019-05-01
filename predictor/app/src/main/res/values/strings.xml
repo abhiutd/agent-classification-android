@@ -22,7 +22,23 @@
     <string name="toggle_turn_off">NN:Off</string>
     <string name="toggle">Use NNAPI</string>
     <string name="intro_headline">MLModelScope Agent</string>
+    <string name="choose_predict">Predict</string>
     <string name="choose_framework">Framework</string>
     <string name="choose_model">Model</string>
     <string name="choose_hardware">Hardware</string>
+    <string-array name="framework_array">
+        <item>TFLite</item>
+        <item>Caffe2</item>
+        <item>TVM</item>>
+    </string-array>
+    <string-array name="model_array">
+        <item>Mobilenet_1</item>
+        <item>Mobilenet_2</item>
+        <item>Mobilenet_3</item>>
+    </string-array>
+    <string-array name="hardware_array">
+        <item>CPU</item>
+        <item>GPU</item>
+        <item>DSP</item>>
+    </string-array>
 </resources>

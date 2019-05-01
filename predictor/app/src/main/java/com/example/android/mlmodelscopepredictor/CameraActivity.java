@@ -16,6 +16,7 @@ limitations under the License.
 package com.example.android.mlmodelscopepredictor;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 /** Main {@code Activity} class for the Camera app. */
@@ -25,6 +26,11 @@ public class CameraActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_camera);
+    Intent intent = getIntent();
+    String framework = intent.getStringExtra("framework");
+    String model = intent.getStringExtra("model");
+    String hardware = intent.getStringExtra("hardware");
+    System.out.println("In CameraActivity -- User wants to run "+model+" deployed in "+framework+" on mobile "+hardware);
     if (null == savedInstanceState) {
       getFragmentManager()
           .beginTransaction()
