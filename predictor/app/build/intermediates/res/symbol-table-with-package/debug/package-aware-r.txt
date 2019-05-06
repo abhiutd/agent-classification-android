@@ -795,6 +795,7 @@ id custom
 id customPanel
 id decor_content_parent
 id default_activity_button
+id deploy_button
 id design_bottom_sheet
 id design_menu_item_action_area
 id design_menu_item_action_area_stub

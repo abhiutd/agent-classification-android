@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
@@ -89,6 +90,21 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         intent.putExtra("model", this.selected_model);
         intent.putExtra("hardware", this.selected_hardware);
         startActivity(intent);
+    }
+
+    public void toastMsg(String msg) {
+
+        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
+        toast.show();
+
+    }
+
+    /**
+     * Deploy
+     * @param view -- the view that is clicked
+     */
+    public void goToDeploy(View view){
+        toastMsg("Deploy agent on the web (to be added)!");
     }
 
 }
