@@ -30,11 +30,13 @@ public class CameraActivity extends Activity {
     String framework = intent.getStringExtra("framework");
     String model = intent.getStringExtra("model");
     String hardware = intent.getStringExtra("hardware");
-    System.out.println("In CameraActivity -- User wants to run "+model+" deployed in "+framework+" on mobile "+hardware);
+    String datatype = intent.getStringExtra("datatype");
+    // DEBUG
+    System.out.println("In CameraActivity -- User wants to run "+model+" deployed in "+framework+" on mobile "+hardware+" with datatype "+datatype);
     if (null == savedInstanceState) {
       getFragmentManager()
           .beginTransaction()
-          .replace(R.id.container, Camera2BasicFragment.newInstance())
+          .replace(R.id.container, Camera2BasicFragment.newInstance(framework, model, hardware, datatype))
           .commit();
     }
   }

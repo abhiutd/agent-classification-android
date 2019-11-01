@@ -26,6 +26,7 @@
     <string name="choose_framework">Framework</string>
     <string name="choose_model">Model</string>
     <string name="choose_hardware">Hardware</string>
+    <string name="choose_datatype">Datatype</string>
     <string-array name="framework_array">
         <item>TFLite</item>
         <item>Caffe2</item>
@@ -40,5 +41,9 @@
         <item>CPU</item>
         <item>GPU</item>
         <item>DSP</item>>
+    </string-array>
+    <string-array name="datatype_array">
+        <item>float32</item>
+        <item>int8</item>>
     </string-array>
 </resources>

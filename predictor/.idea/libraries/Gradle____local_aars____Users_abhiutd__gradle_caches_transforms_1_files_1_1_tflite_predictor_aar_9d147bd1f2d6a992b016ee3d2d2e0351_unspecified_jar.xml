@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: __local_aars__:/Users/abhiutd/.gradle/caches/transforms-1/files-1.1/tflite-predictor.aar/9d147bd1f2d6a992b016ee3d2d2e0351:unspecified@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/tflite-predictor.aar/9d147bd1f2d6a992b016ee3d2d2e0351/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/tflite-predictor.aar/9d147bd1f2d6a992b016ee3d2d2e0351/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/app/libs/tflite-predictor-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

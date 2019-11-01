@@ -43,6 +43,7 @@ import java.util.PriorityQueue;
 //import org.tensorflow.lite.Interpreter;
 import tflite.Tflite;
 import tflite.PredictorData;
+import android.widget.Toast;
 
 /** Classifies images with Tensorflow Lite. */
 public class ImageClassifier {
@@ -51,12 +52,24 @@ public class ImageClassifier {
   private static final String TAG = "MLModelScopePredictor";
 
   /** Name of the model file stored in Assets. */
-  private static final String MODEL_PATH = "graph.lite";
+  private static String FRAMEWORK = "XXX";
+  private static String MODEL_PATH = "XXX";
+  private static String HARDWARE = "XXX";
+  private static String DATATYPE = "XXX";
 
+  /** signal quantized model run*/
+  private static Boolean QUANTIZED = false;
 
   /** Name of the label file stored in Assets. */
   private static final String LABEL_PATH = "labels.txt";
   public String LABEL_PATH_LOCAL;
+
+  private boolean cold_start = true;
+  private String MODEL_LOADING;
+  private String DATA_PREPROCESSING;
+  private String MODEL_COLDSTART;
+  private String MODEL_COMPUTATION;
+  private String DATA_POSTPROCESSING;
 
   /** Number of results to show in the UI. */
   private static final int RESULTS_TO_SHOW = 3;
@@ -117,17 +130,30 @@ public class ImageClassifier {
     Log.d(TAG, "Created a Tensorflow Lite Image Classifier.");
   }*/
 
-  ImageClassifier(Activity activity) throws IOException {
-    try{
-      // DOES NOT WORK read tflite graph into a buffer
-      //AssetFileDescriptor fd = activity.getAssets().openFd(MODEL_PATH);
-      //FileInputStream is = new FileInputStream(fd.getFileDescriptor());
-      //int is_size = is.available();
-      //byte[] is_buffer = new byte[is_size];
-      //is.read(is_buffer);
-      //is.close();
 
-      // TRY temporary storage
+  ImageClassifier(Activity activity, String chosen_framework, String chosen_model, String chosen_hardware, String chosen_datatype) throws IOException {
+    try{
+        // DOES NOT WORK read tflite graph into a buffer
+        // AssetFileDescriptor fd = activity.getAssets().openFd(MODEL_PATH);
+        //FileInputStream is = new FileInputStream(fd.getFileDescriptor());
+        //int is_size = is.available();
+        //byte[] is_buffer = new byte[is_size];
+        //is.read(is_buffer);
+        //is.close();
+
+        // Set framework, model and hardware choices
+        FRAMEWORK = chosen_framework;
+        MODEL_PATH = chosen_model;
+        HARDWARE = chosen_hardware;
+        DATATYPE = chosen_datatype;
+        Log.e(TAG, "In classifier object => Chosen framework: " + FRAMEWORK + ", Chosen model: " + MODEL_PATH + ", Chosen hardware: " + HARDWARE + ", Chosen datatype: " + DATATYPE);
+        if(DATATYPE.equals("int8")) {
+          Log.e(TAG, "Set QUANTIZED to true");
+          QUANTIZED = true;
+        } else {
+          QUANTIZED = false;
+        }
+        // TRY temporary storage
       AssetManager assetManager = activity.getAssets();
       String abi = Build.CPU_ABI;
       String filesDir = activity.getFilesDir().getPath();
@@ -135,9 +161,11 @@ public class ImageClassifier {
       String testPathLabels = abi + "/" + LABEL_PATH;
 
       InputStream inStream = assetManager.open(MODEL_PATH);
-      Log.d(TAG, "Opened" + MODEL_PATH);
+      // DEBUG
+      //Log.d(TAG, "Opened " + MODEL_PATH);
       InputStream inStreamLabels = assetManager.open(LABEL_PATH);
-      Log.d(TAG, "Opened" + LABEL_PATH);
+      // DEBUG
+      //Log.d(TAG, "Opened " + LABEL_PATH);
 
       // Copy this file to an executable location
       File outFile = new File(filesDir, MODEL_PATH);
@@ -160,17 +188,27 @@ public class ImageClassifier {
       inStream.close();
       outStream.flush();
       outStream.close();
-      Log.d(TAG, "Copied" + MODEL_PATH + " to " + filesDir);
+      // DEBUG
+      //Log.d(TAG, "Copied " + MODEL_PATH + " to " + filesDir);
       String tempPath = filesDir + "/" + MODEL_PATH;
 
       inStreamLabels.close();
       outStreamLabels.flush();
       outStreamLabels.close();
-      Log.d(TAG, "Copied" + LABEL_PATH + " to " + filesDir);
+      // DEBUG
+      //Log.d(TAG, "Copied " + LABEL_PATH + " to " + filesDir);
       String tempPathLabels = filesDir + "/" + LABEL_PATH;
       LABEL_PATH_LOCAL = tempPathLabels;
 
-      mypredictor = Tflite.new_(tempPath, Tflite.CPUMode, 1);
+      // Create TfLite predictor
+      long startTime_load = SystemClock.uptimeMillis();
+      mypredictor = Tflite.new_(tempPath, Tflite.CPU_1_thread, 1, false, false);
+      long endTime_load = SystemClock.uptimeMillis();
+      // INFO
+      MODEL_LOADING = "Model loading: " + Long.toString(endTime_load - startTime_load) + " ms \n";
+
+      Log.d(TAG, MODEL_LOADING);
+
       if(mypredictor == null){
         Log.e(TAG, "Tflite.new_ returning null model");
       }
@@ -184,7 +222,8 @@ public class ImageClassifier {
     imgData.order(ByteOrder.nativeOrder());
     labelProbArray = new float[1][labelList.size()];
     filterLabelProbArray = new float[FILTER_STAGES][labelList.size()];
-    Log.d(TAG, "Created a Tensorflow Lite Image Classifier.");
+    // DEBUG
+    //Log.d(TAG, "Created a Tensorflow Lite Image Classifier.");
   }
 
   /* DEMO: Classifies a frame from the preview stream.
@@ -214,8 +253,14 @@ public class ImageClassifier {
       Log.e(TAG, "Image classifier has not been initialized; Skipped.");
       return "Uninitialized Classifier.";
     }
+    Log.e(TAG, "In classifyFrame => Chosen framework: " + FRAMEWORK + ", Chosen model: " + MODEL_PATH + ", Chosen hardware: " + HARDWARE + ", Chosen datatype: " + DATATYPE + ", QUANTIZED: " + QUANTIZED);
     // read bitmapped frame into imgData (ByteBuffer)
+    long startTime_preprocessing = SystemClock.uptimeMillis();
     convertBitmapToByteBuffer(bitmap);
+    long endTime_preprocessing = SystemClock.uptimeMillis();
+    DATA_PREPROCESSING = "Data preprocessing : " + Long.toString(endTime_preprocessing - startTime_preprocessing) + " ms \n";
+    Log.d(TAG, DATA_PREPROCESSING);
+
     // convert ByteBuffer[] into byte[]
     // as gomobile only supports []byte
     imgData.rewind();
@@ -231,25 +276,47 @@ public class ImageClassifier {
 
       // DEBUG - NOT PRINTING => meaning imgDataBytes were transferred correctly
       if(imgDataBytes.length != 0){
-        Log.d(TAG,"imgDataBytes length = " + Float.toString(imgDataBytes.length));
+        // DEBUG
+        //Log.d(TAG,"imgDataBytes length = " + Float.toString(imgDataBytes.length));
       }
 
     }catch (Exception e){
       e.printStackTrace();
     }
 
+    // Separate cold start
+    if(cold_start) {
+      long startTime_coldstart = SystemClock.uptimeMillis();
+      // DEBUG - COMMENTING BOTH predict() and readPredictionOutput()
+      // does not result in an error
+      // try uncommenting one of them (first one)
+      try {
+        Tflite.predict(mypredictor, imgDataBytes, QUANTIZED);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      long endTime_coldstart = SystemClock.uptimeMillis();
+      MODEL_COLDSTART = "Model coldstart : " + Long.toString(endTime_coldstart - startTime_coldstart) + " ms \n";
+      Log.d(TAG, MODEL_COLDSTART);
+    }
+    cold_start = false;
+
     // Here's where the magic happens!!!
-    long startTime = SystemClock.uptimeMillis();
+    int count = 10;
+    long startTime_computation = SystemClock.uptimeMillis();
     // DEBUG - COMMENTING BOTH predict() and readPredictionOutput()
     // does not result in an error
     // try uncommenting one of them (first one)
     try {
-      Tflite.predict(mypredictor, imgDataBytes);
+      for(int i = 0; i < count; i++) {
+        Tflite.predict(mypredictor, imgDataBytes, QUANTIZED);
+      }
     }catch(Exception e){
       e.printStackTrace();
     }
-    long endTime = SystemClock.uptimeMillis();
-    Log.d(TAG, "Timecost to run model inference: " + Long.toString(endTime - startTime));
+    long endTime_computation = SystemClock.uptimeMillis();
+    MODEL_COMPUTATION = "Model computation : " + Long.toString((endTime_computation - startTime_computation)/count) + " ms \n";
+    Log.d(TAG, MODEL_COMPUTATION);
 
     // smooth the results
     //applyFilter();
@@ -257,15 +324,22 @@ public class ImageClassifier {
     // print the results
     //String textToShow = printTopKLabels();
     String labelOutput = "";
+    long startTime_postprocessing = SystemClock.uptimeMillis();
     try {
-      Log.d(TAG, "CALLING readPredictedOutput");
+      // DEBUG
+      //Log.d(TAG, "CALLING readPredictedOutput");
       labelOutput = Tflite.readPredictionOutput(mypredictor, LABEL_PATH_LOCAL);
     }catch(Exception e){
       e.printStackTrace();
     }
+    long endTime_postprocessing = SystemClock.uptimeMillis();
+    DATA_POSTPROCESSING = "Data postprocessing: " + Long.toString(endTime_postprocessing - startTime_postprocessing) + " ms \n";
+    Log.d(TAG, DATA_POSTPROCESSING);
 
-    String textToShow = " labelOutput: " + labelOutput;
-    textToShow = Long.toString(endTime - startTime) + "ms" + textToShow;
+    //String[] labelOutputs = labelOutput.split("|");
+    //String textToShow = "Top-5 predictions: " + labelOutputs[0] + "," + labelOutputs[1] + "," + labelOutputs[2] + "," + labelOutputs[3] + "," + labelOutputs[4] + ",";
+    String textToShow = "Framework: " + FRAMEWORK + "\n" + "Model: " + MODEL_PATH + "\n" + "Hardware: " + HARDWARE + "\n" + "Datatype: " + DATATYPE + "\n" + "Top-5 predictions: " + labelOutput;
+    textToShow = textToShow + "\n" + MODEL_LOADING + MODEL_COLDSTART + DATA_PREPROCESSING + MODEL_COMPUTATION + DATA_POSTPROCESSING;
     return textToShow;
   }
 
@@ -336,31 +410,53 @@ public class ImageClassifier {
     // check if passed bitmap is empty
     Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
     if(bitmap.sameAs(emptyBitmap)){
-      Log.d(TAG, "Passed bitmap is also empty - what is happening ???");
+      // DEBUG
+      //Log.d(TAG, "Passed bitmap is also empty - what is happening ???");
     }
     
     bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-    // Convert the image to floating point.
-    int pixel = 0;
-    long startTime = SystemClock.uptimeMillis();
-    for (int i = 0; i < DIM_IMG_SIZE_X; ++i) {
-      for (int j = 0; j < DIM_IMG_SIZE_Y; ++j) {
-        final int val = intValues[pixel++];
+    if(QUANTIZED == false) {
+      // Convert the image to ByteBuffer floating point
+      int pixel = 0;
+      long startTime = SystemClock.uptimeMillis();
+      for (int i = 0; i < DIM_IMG_SIZE_X; ++i) {
+        for (int j = 0; j < DIM_IMG_SIZE_Y; ++j) {
+          final int val = intValues[pixel++];
 
-        // DEBUG - NOT PRINTING => intValues is fine
-        if(val == 0)
-          Log.d(TAG, "val[" + Long.toString(pixel-1) + "] is zero");
+          // DEBUG - NOT PRINTING => intValues is fine
+          //if(val == 0)
+          //  Log.d(TAG, "val[" + Long.toString(pixel-1) + "] is zero");
 
-        imgData.putFloat((((val >> 16) & 0xFF)-IMAGE_MEAN)/IMAGE_STD);
-        imgData.putFloat((((val >> 8) & 0xFF)-IMAGE_MEAN)/IMAGE_STD);
-        imgData.putFloat((((val) & 0xFF)-IMAGE_MEAN)/IMAGE_STD);
+          imgData.putFloat((((val >> 16) & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
+          imgData.putFloat((((val >> 8) & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
+          imgData.putFloat((((val) & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
+        }
+      }
+    } else {
+      // Convert the image to Bytebuffer int
+      int pixel = 0;
+      long startTime = SystemClock.uptimeMillis();
+      for (int i = 0; i < DIM_IMG_SIZE_X; ++i) {
+        for (int j = 0; j < DIM_IMG_SIZE_Y; ++j) {
+          final int val = intValues[pixel++];
+
+          // DEBUG - NOT PRINTING => intValues is fine
+          //if(val == 0)
+          //  Log.d(TAG, "val[" + Long.toString(pixel-1) + "] is zero");
+
+          imgData.putInt((val >> 16) & 0xFF);
+          imgData.putInt((val >> 8) & 0xFF);
+          imgData.putInt((val) & 0xFF);
+        }
       }
     }
     long endTime = SystemClock.uptimeMillis();
-    Log.d(TAG, "Timecost to put values into ByteBuffer: " + Long.toString(endTime - startTime));
-    if (imgData.getFloat(2) != 0.0){
-      Log.d(TAG, "Non-zero imgData value - " + Float.toString(imgData.getFloat(2)));
-    }
+    // DEBUG
+    //Log.d(TAG, "Data preprocessing: " + Long.toString(endTime - startTime) + " ms \n");
+    //if (imgData.getFloat(2) != 0.0){
+      // DEBUG
+      //Log.d(TAG, "Non-zero imgData value - " + Float.toString(imgData.getFloat(2)));
+    //}
   }
 
   /** Prints top-K labels, to be shown in UI as the results. */

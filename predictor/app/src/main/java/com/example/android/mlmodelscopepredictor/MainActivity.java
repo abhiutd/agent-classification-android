@@ -15,14 +15,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     private Spinner framework_spinner;
     private Spinner model_spinner;
     private Spinner hardware_spinner;
+    private Spinner datatype_spinner;
 
-    private static final String[] framework_paths = {"TFLite", "Caffe2", "TVM"};
-    private static final String[] model_paths = {"Mobilenet_1", "Mobilenet_2", "Mobilenet_3"};
-    private static final String[] hardware_paths = {"CPU", "GPU", "DSP"};
+    private static final String[] framework_paths = {"Tensorflow Lite"};
+    private static final String[] model_paths = {"mobilenet_v1_0.5_160_quant.tflite", "mobilenet_v1_0.25_128.tflite", "mobilenet_v1_0.25_128_quant.tflite", "mobilenet_v1_1.0_224.tflite", "mobilenet_v2_1.0_224.tflite", "squeezenet.tflite", "densenet.tflite"};
+    private static final String[] hardware_paths = {"CPU_1_thread", "CPU_2_thread", "CPU_3_thread", "CPU_4_thread", "CPU_5_thread", "CPU_6_thread", "GPU", "NNAPI"};
+    private static final String[] datatype_paths = {"float32", "int8"};
 
-    public String selected_framework;
-    public String selected_model;
-    public String selected_hardware;
+    public String selected_framework = "XXX";
+    public String selected_model = "XXX";
+    public String selected_hardware = "XXX";
+    public String selected_datatype = "XXX";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +50,22 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         hardware_spinner.setPrompt("Choose compute backend!");
         hardware_spinner.setAdapter(hardware_adapter);
 
-        this.selected_framework = framework_spinner.getSelectedItem().toString();
-        this.selected_model = model_spinner.getSelectedItem().toString();
-        this.selected_hardware = hardware_spinner.getSelectedItem().toString();
-        System.out.println("User wants to run "+this.selected_model+" deployed in "+this.selected_framework+" on mobile "+this.selected_hardware);
-        //framework_spinner.setOnItemSelectedListener(this);
-        //model_spinner.setOnItemSelectedListener(this);
-        //hardware_spinner.setOnItemSelectedListener(this);
+        datatype_spinner = (Spinner)findViewById(R.id.datatype_spinner);
+        ArrayAdapter<String> datatype_adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, datatype_paths);
+        datatype_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        datatype_spinner.setPrompt("Choose datatype!");
+        datatype_spinner.setAdapter(datatype_adapter);
+
+        //this.selected_framework = framework_spinner.getSelectedItem().toString();
+        //this.selected_model = model_spinner.getSelectedItem().toString();
+        //this.selected_hardware = hardware_spinner.getSelectedItem().toString();
+        // DEBUG
+        //System.out.println("OnCreate: User wants to run "+this.selected_model+" deployed in "+this.selected_framework+" on mobile "+this.selected_hardware);
+
+        framework_spinner.setOnItemSelectedListener(this);
+        model_spinner.setOnItemSelectedListener(this);
+        hardware_spinner.setOnItemSelectedListener(this);
+        datatype_spinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -61,22 +73,31 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
         if(parent.getId() == R.id.framework_spinner) {
             // set framework choice
+            this.selected_framework = framework_spinner.getSelectedItem().toString();
         } else if(parent.getId() == R.id.model_spinner) {
             // set model choice
-        } else {
+            this.selected_model = model_spinner.getSelectedItem().toString();
+        } else if(parent.getId() == R.id.hardware_spinner) {
             // set hardware choice
+            this.selected_hardware = hardware_spinner.getSelectedItem().toString();
+        } else if(parent.getId() == R.id.datatype_spinner) {
+            // set datatype choice
+            this.selected_datatype = datatype_spinner.getSelectedItem().toString();
         }
+
+        // DEBUG
+        System.out.println("OnItemSelected: User wants to run "+this.selected_model+" deployed in "+this.selected_framework+" on mobile "+this.selected_hardware+" with datatype " + this.selected_datatype);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
         if(parent.getId() == R.id.framework_spinner) {
-            // force user to select framework
+            // default
         } else if(parent.getId() == R.id.model_spinner) {
-            // force user to select model
+            // default
         } else {
-            // force user to select hardware
+            // default
         }
     }
 
@@ -89,6 +110,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         intent.putExtra("framework", this.selected_framework);
         intent.putExtra("model", this.selected_model);
         intent.putExtra("hardware", this.selected_hardware);
+        intent.putExtra("datatype", this.selected_datatype);
         startActivity(intent);
     }
 

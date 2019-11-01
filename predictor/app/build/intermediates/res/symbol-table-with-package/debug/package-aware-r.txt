@@ -16,6 +16,7 @@ anim design_fab_out
 anim design_snackbar_in
 anim design_snackbar_out
 animator design_appbar_state_list_animator
+array datatype_array
 array framework_array
 array hardware_array
 array model_array
@@ -793,6 +794,7 @@ id contentPanel
 id control
 id custom
 id customPanel
+id datatype_spinner
 id decor_content_parent
 id default_activity_button
 id deploy_button
@@ -1031,6 +1033,7 @@ string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
 string camera_error
 string character_counter_pattern
+string choose_datatype
 string choose_framework
 string choose_hardware
 string choose_model

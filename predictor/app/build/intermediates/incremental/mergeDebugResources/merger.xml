@@ -1941,7 +1941,10 @@
         <item>CPU</item>
         <item>GPU</item>
         <item>DSP</item>>
-    </string-array><string name="choose_predict">Predict</string></file><file path="/Users/abhiutd/workspace/scratch/agent-classification-android/predictor/app/src/main/res/values/template-dimens.xml" qualifiers=""><dimen name="margin_tiny">4dp</dimen><dimen name="margin_small">8dp</dimen><dimen name="margin_medium">16dp</dimen><dimen name="margin_large">32dp</dimen><dimen name="margin_huge">64dp</dimen><dimen name="horizontal_page_margin">@dimen/margin_medium</dimen><dimen name="vertical_page_margin">@dimen/margin_medium</dimen></file><file path="/Users/abhiutd/workspace/scratch/agent-classification-android/predictor/app/src/main/res/values/template-styles.xml" qualifiers=""><style name="Theme.Base" parent="android:Theme.Light"/><style name="Theme.Sample" parent="Theme.Base"/><style name="AppTheme" parent="Theme.Sample"/><style name="Widget"/><style name="Widget.SampleMessage">
+    </string-array><string name="choose_predict">Predict</string><string-array name="datatype_array">
+        <item>float32</item>
+        <item>int8</item>>
+    </string-array><string name="choose_datatype">Datatype</string></file><file path="/Users/abhiutd/workspace/scratch/agent-classification-android/predictor/app/src/main/res/values/template-dimens.xml" qualifiers=""><dimen name="margin_tiny">4dp</dimen><dimen name="margin_small">8dp</dimen><dimen name="margin_medium">16dp</dimen><dimen name="margin_large">32dp</dimen><dimen name="margin_huge">64dp</dimen><dimen name="horizontal_page_margin">@dimen/margin_medium</dimen><dimen name="vertical_page_margin">@dimen/margin_medium</dimen></file><file path="/Users/abhiutd/workspace/scratch/agent-classification-android/predictor/app/src/main/res/values/template-styles.xml" qualifiers=""><style name="Theme.Base" parent="android:Theme.Light"/><style name="Theme.Sample" parent="Theme.Base"/><style name="AppTheme" parent="Theme.Sample"/><style name="Widget"/><style name="Widget.SampleMessage">
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style><style name="Widget.SampleMessageTile">

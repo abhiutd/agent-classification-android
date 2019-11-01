@@ -44,6 +44,7 @@ import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.renderscript.Element;
 import android.support.annotation.NonNull;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.content.ContextCompat;
@@ -71,6 +72,12 @@ public class Camera2BasicFragment extends Fragment
 
   /** Tag for the {@link Log}. */
   private static final String TAG = "MLModelScopePredictor";
+
+  /** Pass on framework, model and hardware choices */
+  private static String FRAMEWORK = "XXX";
+  private static String MODEL = "XXX";
+  private static String HARDWARE = "XXX";
+  private static String DATATYPE = "XXX";
 
   private static final String FRAGMENT_DIALOG = "dialog";
 
@@ -273,7 +280,12 @@ public class Camera2BasicFragment extends Fragment
     }
   }
 
-  public static Camera2BasicFragment newInstance() {
+  public static Camera2BasicFragment newInstance(String chosen_framework, String chosen_model, String chosen_hardware, String chosen_datatype) {
+    FRAMEWORK = chosen_framework;
+    MODEL = chosen_model;
+    HARDWARE = chosen_hardware;
+    DATATYPE = chosen_datatype;
+    Log.e(TAG, "In newInstance: Chosen framework: " + FRAMEWORK + ", Chosen model: " + MODEL + ", Chosen hardware: " + HARDWARE+ ", Chosen datatype: " + DATATYPE);
     return new Camera2BasicFragment();
   }
 
@@ -296,7 +308,8 @@ public class Camera2BasicFragment extends Fragment
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     try {
-      classifier = new ImageClassifier(getActivity());
+      Log.e(TAG, "Before creating classifier object => Chosen framework: " + FRAMEWORK + ", Chosen model: " + MODEL + ", Chosen hardware: " + HARDWARE + ", Chosen datatype: " + DATATYPE);
+      classifier = new ImageClassifier(getActivity(), FRAMEWORK, MODEL, HARDWARE, DATATYPE);
     } catch (IOException e) {
       Log.e(TAG, "Failed to initialize an image classifier.");
     }
